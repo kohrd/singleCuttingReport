@@ -26,8 +26,6 @@ public class MainController {
 	// Zmienic ścierzke
 	String dbPathLocal = "/home/gosiakonrad/IdeaProjects/singleCuttingProject/SingleCuttngReport/src/main/resources/dB/raportSingleCutting.db";
 
-
-	// SEKCJA SPRAWDZANIA MATERIA£U
 	@FXML
 	private ComboBox<String> operator_main;
 
@@ -46,6 +44,9 @@ public class MainController {
 	@FXML
 	private TextField ilosc_na_podkladki_1;
 
+	@FXML
+	private TextField ilosc_podkladek_1;
+
 	// SEKCJA 2 PRZEDRUKU POLARYZATORÓW
 
 	@FXML
@@ -62,6 +63,12 @@ public class MainController {
 	@FXML
 	private TextField ilosc_klejonych_3;
 
+	@FXML
+	private TextField ilosc_klejonych_na_rdzen_3;
+
+	@FXML
+	private ComboBox<String> klejone_na_rdzen_rozmiar_3;
+
 	// SEKCJA 4 OZNAKOWANIE
 	@FXML
 	private ComboBox<String> model_polaryzatora_4;
@@ -70,6 +77,9 @@ public class MainController {
 	private TextField ilosc_oznakowanych_4;
 
 	// TWORZENIE RAPORTU
+	@FXML
+	ComboBox<String> cB_raportDla;
+
 	@FXML
 	private DatePicker date_from;
 
@@ -96,18 +106,29 @@ public class MainController {
 		CommonMethods.wymuszajLiczby(ilosc_calkowita_1);
 		CommonMethods.wymuszajLiczby(ilosc_ok_1);
 		CommonMethods.wymuszajLiczby(ilosc_na_podkladki_1);
+		CommonMethods.wymuszajLiczby(ilosc_podkladek_1);
 		CommonMethods.wymuszajLiczby(ilosc_przedrukowanych_2);
 		CommonMethods.wymuszajLiczby(ilosc_klejonych_3);
 		CommonMethods.wymuszajLiczby(ilosc_oznakowanych_4);
+		CommonMethods.wymuszajLiczby(ilosc_klejonych_na_rdzen_3);
+
+		// combo box sekcji 3 rozmiar kklejonych na rdzen
+		klejone_na_rdzen_rozmiar_3.getItems().addAll("32", "43", "49", "55");
 
 		// ustawianie aktualnej daty w dataPicker
 		date_from.setValue(LocalDate.now());
 		date_to.setValue(LocalDate.now());
 
+		// dodawnai operatorów dla pola twiorzenia raportu
+		ObservableList<String> operatorListForReport = CommonMethods.addDataToCombobox("OPERATOR", "OPERATOR_NAME",
+				dbPathLocal);
+		operatorListForReport.add("Wszyscy");
+		cB_raportDla.setItems(operatorListForReport);
+		cB_raportDla.getSelectionModel().select(4);
 	}
 
 	public void sprawdzanieMaterialuZatwierdz() {
-		String operator;
+		String operator = "";
 		// POBIERANIE DANYCH Z FORMULARZA
 //		String operator = operator_main.getValue();
 		if (operator_main.getValue() == null) {
@@ -123,6 +144,9 @@ public class MainController {
 					"Niepoprawna wartosc");
 			int iloscNaPodkladki = CommonMethods.parseToInt(ilosc_na_podkladki_1.getId(),
 					ilosc_na_podkladki_1.getText(), "NIEPORAWNA WARTOÆ", "Niepoprawna wartosc");
+			int iloscPodkladek = CommonMethods.parseToInt(ilosc_podkladek_1.getId(), ilosc_podkladek_1.getText(),
+					"NIEPORAWNA WARTOÆ", "Niepoprawna wartosc");
+			// ilosc_podkladek_1
 			String trybPracy = tryb_pracy_1.getValue();
 			String modelPolaryzatora = model_polaryzatora_1.getValue();
 			int iloscNg = iloscCalkowita - iloscOk;
@@ -135,6 +159,7 @@ public class MainController {
 				sprawdzanieMaterialu.setIloscCalkowita(iloscCalkowita);
 				sprawdzanieMaterialu.setIloscOk(iloscOk);
 				sprawdzanieMaterialu.setIloscNaPodkladki(iloscNaPodkladki);
+				sprawdzanieMaterialu.setIloscPodkladek(iloscPodkladek);
 				sprawdzanieMaterialu.setModelPolaryzatora(modelPolaryzatora);
 				sprawdzanieMaterialu.setOperator(modelPolaryzatora);
 				sprawdzanieMaterialu.setTrybPracy(trybPracy);
@@ -143,17 +168,18 @@ public class MainController {
 
 				sprawdzanieMaterialu.setDate(CommonMethods.getCurrentDate().get(0));
 				sprawdzanieMaterialu.setTime(CommonMethods.getCurrentDate().get(1));
-
+				sprawdzanieMaterialu.setIp(CommonMethods.getIP());
 				// DODANIE DANYCH DO BAZY
 				sprawdzanieMaterialu.dodajDaneDoBazy(dbPathLocal);
 				sprawdzanieMaterialu = null;
 
 				// czyszczeni formularza
-				tryb_pracy_1.setValue(null);
+//				tryb_pracy_1.setValue(null);
 				model_polaryzatora_1.setValue(null);
 				ilosc_calkowita_1.clear();
 				ilosc_ok_1.clear();
 				ilosc_na_podkladki_1.clear();
+				ilosc_podkladek_1.clear();
 			}
 		}
 	}
@@ -172,8 +198,6 @@ public class MainController {
 			int iloscPrzedrukowanych = CommonMethods.parseToInt(ilosc_przedrukowanych_2.getId(),
 					ilosc_przedrukowanych_2.getText(), "NIEPORAWNA WARTOÆ", "Niepoprawna wartosc");
 
-			// Tworzenie obiektu PrzedrukPolaryzatorw i ustawianie pol setterami dla
-			// potrrzeb orm
 
 			if (iloscPrzedrukowanych < 0) {
 
@@ -186,7 +210,7 @@ public class MainController {
 				przedrukPolaryzatorow.setLot(numerLot);
 				przedrukPolaryzatorow.setAmount(iloscPrzedrukowanych);
 				przedrukPolaryzatorow.setOperator(operator);
-
+				przedrukPolaryzatorow.setIp(CommonMethods.getIP());
 				przedrukPolaryzatorow.dodajDaneDoBazy(dbPathLocal);
 				przedrukPolaryzatorow.toString();
 
@@ -204,33 +228,58 @@ public class MainController {
 	}
 
 	public void klejeniePolaryzatorowZatwierdz() {
+		// w tej metodzeie sprawdzam jedynie zawrtosc pol zeby nie by³o pustych
+		// jesli wszytskie wymagane pola sa uzupe³nmione to uruchamiam metode
+		// klejeniePolaryzatorowPobierzDane
+//		System.out.println("wartosci pobrane z pol " + ilosc_klejonych_3.getText() + "___" + ilosc_klejonych_3.getText()
+//				+ "___" + klejone_na_rdzen_rozmiar_3.getValue());
 
-		// pobieranie danych z formularza
 		if (operator_main.getValue() == null) {
-//			System.out.println("nie wybrales operatora! DODAC OKNO INFORMACYJNE");
-			AlertWindows.wrongValueAlert("Wybierz operatora z listy rozwijanej", "Nie wybrano operaotra",
+			// warunek jesli nie wybrano operatora
+			AlertWindows.wrongValueAlert("Wybierz operatora z listy rozwijanej", "Nie wybrano operatora",
 					"Wartosc niepoprawna");
+		} else if (ilosc_klejonych_3.getText().equals("") && !ilosc_klejonych_na_rdzen_3.getText().equals("")
+				&& !(klejone_na_rdzen_rozmiar_3.getValue() == null)) {
+			klejeniePolaryzatorowPobierzDane();
+		} else if (!ilosc_klejonych_3.getText().equals("") && ilosc_klejonych_na_rdzen_3.getText().equals("")
+				&& klejone_na_rdzen_rozmiar_3.getValue() == null) {
+			klejeniePolaryzatorowPobierzDane();
 		} else {
-			String operator = operator_main.getValue();
-			int iloscKlejonych = CommonMethods.parseToInt(ilosc_klejonych_3.getId(), ilosc_klejonych_3.getText(),
-					"NIEPORAWNA WARTOÆ", "Niepoprawna wartosc");
-			if (iloscKlejonych < 0) {
-
-			} else {
-				KlejeniePolaryzatorow klejeniePolaryzatorow = new KlejeniePolaryzatorow();
-				klejeniePolaryzatorow.setDate(CommonMethods.getCurrentDate().get(0));
-				klejeniePolaryzatorow.setDate(CommonMethods.getCurrentDate().get(1));
-				klejeniePolaryzatorow.setOperator(operator);
-				klejeniePolaryzatorow.setIloscKlejona(iloscKlejonych);
-				System.out.println(klejeniePolaryzatorow.toString());
-				klejeniePolaryzatorow.dodajDaneDoBazy(dbPathLocal);
-				klejeniePolaryzatorow = null;
-				ilosc_klejonych_3.clear();
-			}
-
+			AlertWindows.wrongValueAlert("Niepoprawnie wprowadzone dane w sekcji klejenie materia³u",
+					"Wartoæ niepoprawna", "Wartosc niepoprawna");
 		}
 
 	}
+
+	public void klejeniePolaryzatorowPobierzDane() {
+
+		int iloscKlejonych = -1;
+		int iloscKlejonaNaRdzen = -1;
+		String typKlejonychNaRdzen = "-1";
+
+		KlejeniePolaryzatorow klejeniePolaryzatorow = new KlejeniePolaryzatorow();
+		klejeniePolaryzatorow.setDate(CommonMethods.getCurrentDate().get(0));
+		klejeniePolaryzatorow.setTime(CommonMethods.getCurrentDate().get(1));
+
+		klejeniePolaryzatorow.setOperator(operator_main.getValue());
+		klejeniePolaryzatorow.setIloscKlejona(iloscKlejonych);
+		klejeniePolaryzatorow.setIloscKlejonaNaRdzen(iloscKlejonaNaRdzen);
+		klejeniePolaryzatorow.setTypKlejonychNaRdzen(typKlejonychNaRdzen);
+
+		double dlugoscNawinietaNaRdzen = KlejeniePolaryzatorow.liczDlugoscNawinietaNaRdzen(
+				klejeniePolaryzatorow.getTypKlejonychNaRdzen(), klejeniePolaryzatorow.getIloscKlejonaNaRdzen());
+		klejeniePolaryzatorow.setDlugoscNawinietaNaRdzen(dlugoscNawinietaNaRdzen);
+
+		klejeniePolaryzatorow.setIp(CommonMethods.getIP());
+		System.out.println(klejeniePolaryzatorow.toString());
+		klejeniePolaryzatorow.dodajDaneDoBazy(dbPathLocal);
+		klejeniePolaryzatorow = null;
+		ilosc_klejonych_3.clear();
+		ilosc_klejonych_na_rdzen_3.clear();
+		klejone_na_rdzen_rozmiar_3.setValue(null);
+
+	}
+
 
 	public void oznakowaniePodkladekZatwierdz() {
 		if (operator_main.getValue() == null) {
@@ -253,6 +302,7 @@ public class MainController {
 				oznakowaniePodkladek.setOperator(operator);
 				oznakowaniePodkladek.setAmount(iloscOznakowanych);
 				oznakowaniePodkladek.setModel(model);
+				oznakowaniePodkladek.setIp(CommonMethods.getIP());
 
 				oznakowaniePodkladek.dodajDaneDoBazy(dbPathLocal);
 				System.out.println(oznakowaniePodkladek.toString());
@@ -268,32 +318,26 @@ public class MainController {
 
 		String dateFrom = String.valueOf(date_from.getValue());
 		String dateTo = String.valueOf(date_to.getValue());
-//		DateTimeFormatter dateFromFormatter = DateTimeFormatter.ofPattern("YYYY-MM-DD");
-//		String dateFromString = LocalDate.format(dateFromFormatter);
-//		LocalDate dateTo = date_to.getValue();
-		
+		String reportFor = cB_raportDla.getValue();
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Zapisz raport ma³ego ciêcia w danej lokalizacji");
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter ("XLS files (*.xls)", "*.xls");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLS files (*.xls)", "*.xls");
 		fileChooser.getExtensionFilters().add(extFilter);
-		fileChooser.setInitialFileName("dupa.xls");
+		fileChooser.setInitialFileName("scReport_" + dateFrom + "_" + dateTo + "_" + reportFor + ".xls");
 		File raportFile = fileChooser.showSaveDialog(null);
 		System.out.println(raportFile);
-		
+
 		if (raportFile != null) {
 			try {
-			
-			GenerateReport.generateReportInExcel(dateFrom, dateTo, dbPathLocal, raportFile);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+
+				GenerateReport.generateReportInExcel(dateFrom, dateTo, reportFor, dbPathLocal, raportFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		// https://stackoverflow.com/questions/29846602/how-to-save-file-with-savedilogue-javafx
-		
 
 	}
-
-
 
 	public void onMouseClikedUpdateComboboxModelType() {
 		// aktualizowanie comboBox po kliknieciu na niego

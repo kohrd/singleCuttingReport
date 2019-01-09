@@ -1,5 +1,7 @@
 package pl.singleCutting.report.metody;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,11 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.support.ConnectionSource;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -62,7 +59,7 @@ public class CommonMethods {
 		} catch (Exception e) {
 			System.out.println(fieldName);
 			AlertWindows.wrongValueAlert(
-					"Podano zla wartosc w polu " + fieldName + "//n. Jezeli jest to 0. Musisz wpisac tak¹ wartosc", windowHeader, title);
+					"Podano zla wartosc w polu " + fieldName + "//n. Je¿eli jest to 0. Musisz wpisac tak¹ wartosc", windowHeader, title);
 			System.out.println(e);
 			return -1;
 		}
@@ -77,5 +74,21 @@ public class CommonMethods {
 		dateList.add(1, timeStamp);
 		return dateList;
 	}
+	
+	public static String getIP() {
+		
+		InetAddress IP = null;
+		try {
+			IP = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String ipAdress = IP.getHostAddress().toString();
+		System.out.println("IP of my system is := "+IP.getHostAddress());	
+		return ipAdress;
+	}
+		
+	
 
 }

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="raportMaleCiecie_26.MainController">
+   <children>
+      <GridPane prefHeight="654.0" prefWidth="398.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.0" minWidth="10.0" prefWidth="224.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="176.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="5.0" minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="8.0" minHeight="8.0" prefHeight="8.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="8.0" minHeight="8.0" prefHeight="8.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="19.0" minHeight="5.0" prefHeight="19.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="8.0" minHeight="8.0" prefHeight="8.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="8.0" minHeight="8.0" prefHeight="8.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="8.0" prefHeight="8.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Sprawdzanie materiału:" textFill="#b22626" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Button mnemonicParsing="false" onAction="#sprawdzanieMaterialuZatwierdz" text="Zatwierdź dane" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="10" />
+            <Label text="Model polaryzatora:" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+            <Label text="Tryb pracy (DRM/OM):" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+            <Label text="Ilośc całkowita:" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+            <Label text="Ilość ok:" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+            <Label text="Ilośc surowca na podkładki:" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+            <Separator prefWidth="200.0" GridPane.rowIndex="11" />
+            <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <TextField fx:id="ilosc_calkowita_1" maxWidth="150.0" minWidth="150.0" promptText="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="ilosc_ok_1" maxWidth="150.0" minWidth="150.0" promptText="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="ilosc_na_podkladki_1" maxWidth="150.0" minWidth="150.0" promptText="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin>
+            </TextField>
+            <ComboBox fx:id="tryb_pracy_1" maxWidth="150.0" onMouseClicked="#onMouseClikedUpdateComboboxProductionMode" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin>
+            </ComboBox>
+            <ComboBox fx:id="model_polaryzatora_1" maxWidth="150.0" onMouseClicked="#onMouseClikedUpdateComboboxModelType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin>
+            </ComboBox>
+            <Label text="Przedruk polaryzatorów" textFill="#b22626" GridPane.halignment="RIGHT" GridPane.rowIndex="12">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Separator prefWidth="200.0" GridPane.rowIndex="2" />
+            <Label text="Operator:" textAlignment="RIGHT" textFill="#b22626" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="operator_main" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Label text="Model polaryzatora:" GridPane.halignment="RIGHT" GridPane.rowIndex="13" />
+            <Label text="Numer LOT:" GridPane.halignment="RIGHT" GridPane.rowIndex="14" />
+            <Label text="Ilość przedrukowanych polaryzatorów:" GridPane.halignment="RIGHT" GridPane.rowIndex="15" />
+            <TextField fx:id="numer_LOT_2" layoutX="247.0" layoutY="268.0" maxWidth="150.0" minWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="14" />
+            <TextField fx:id="ilosc_przedrukowanych_2" layoutX="247.0" layoutY="268.0" maxWidth="150.0" minWidth="150.0" promptText="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="15" />
+            <ComboBox fx:id="model_polaryzatora_2" layoutX="247.0" layoutY="94.0" maxWidth="150.0" onMouseClicked="#onMouseClikedUpdateComboboxModelType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
+            <Button mnemonicParsing="false" onAction="#przedrukPolaryzatorowZatwierdz" text="Zatwierdź dane" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="16" />
+            <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="17" />
+            <Separator prefWidth="200.0" GridPane.rowIndex="17" />
+            <Label text="Klejenie podkładek:" textFill="#b22626" GridPane.halignment="RIGHT" GridPane.rowIndex="18">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label text="Ilość klejonych podkładek:" GridPane.halignment="RIGHT" GridPane.rowIndex="19" />
+            <TextField fx:id="ilosc_klejonych_3" layoutX="247.0" layoutY="285.0" maxWidth="150.0" minWidth="150.0" promptText="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="19" />
+            <Button mnemonicParsing="false" onAction="#klejeniePolaryzatorowZatwierdz" text="Zatwierdź dane" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="21" />
+            <Separator prefWidth="200.0" GridPane.rowIndex="22" />
+            <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="22" />
+            <Label text="Oznakowanie podkładek:" textFill="#b22626" GridPane.halignment="RIGHT" GridPane.rowIndex="23">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label text="Model oznakowanych podkładek:" GridPane.halignment="RIGHT" GridPane.rowIndex="24" />
+            <Label text="Ilość oznakowanych podkładek:" GridPane.halignment="RIGHT" GridPane.rowIndex="25" />
+            <ComboBox fx:id="model_polaryzatora_4" layoutX="247.0" layoutY="246.0" maxWidth="150.0" onMouseClicked="#onMouseClikedUpdateComboboxModelType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="24" />
+            <TextField fx:id="ilosc_oznakowanych_4" maxWidth="150.0" minWidth="150.0" promptText="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="25" />
+            <Separator prefWidth="200.0" GridPane.rowIndex="27" />
+            <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="27" />
+            <Button mnemonicParsing="false" onAction="#oznakowaniePodkladekZatwierdz" text="Zatwierdź dane" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="26" />
+            <Label text="Tworzenie raportu:" textFill="#b22626" GridPane.halignment="RIGHT" GridPane.rowIndex="28">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label text="Data od:" GridPane.halignment="RIGHT" GridPane.rowIndex="30" />
+            <Label text="Data do:" GridPane.halignment="RIGHT" GridPane.rowIndex="31" />
+            <Button fx:id="stworzRaportButton" mnemonicParsing="false" onAction="#stworzRaport" text="Stwórz raport" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="32" />
+            <DatePicker fx:id="date_from" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="30" />
+            <DatePicker fx:id="date_to" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="31" />
+            <Label text="Ilość podkładek:" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+            <TextField fx:id="ilosc_podkladek_1" maxWidth="150.0" minWidth="150.0" promptText="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
+            <Label text="Raport dla:" GridPane.halignment="RIGHT" GridPane.rowIndex="29" />
+            <ComboBox fx:id="cB_raportDla" maxWidth="150.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="29" />
+            <Label text="Ilość podkładek klejonych na rdzeń:" GridPane.halignment="RIGHT" GridPane.rowIndex="20" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="20">
+               <children>
+                  <TextField fx:id="ilosc_klejonych_na_rdzen_3" prefHeight="25.0" prefWidth="59.0" promptText="0">
+                     <HBox.margin>
+                        <Insets left="12.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <ComboBox fx:id="klejone_na_rdzen_rozmiar_3" prefWidth="82.0">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </ComboBox>
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+   </children>
+</StackPane>

@@ -19,20 +19,20 @@ public class Main extends Application {
 	@Override
 	public void start(Stage mainStage) throws Exception {
 		
-
+//		setUserAgentStylesheet(STYLESHEET_CASPIAN);
 		
-		//setUserAgentStylesheet(STYLESHEET_CASPIAN);
+		setUserAgentStylesheet(STYLESHEET_CASPIAN);
 		FXMLLoader fxmlLoader = new FXMLLoader();
 		fxmlLoader.setLocation(this.getClass().getResource(FXML_MAIN_FILE));
 		StackPane stackPane = fxmlLoader.load();
-
 		MainController controller = fxmlLoader.getController();
 		
+//		mainStage.initStyle(StageStyle.UNDECORATED);
 		Scene scene = new Scene(stackPane);
-		//mainStage.setAlwaysOnTop(true);
+//		mainStage.setAlwaysOnTop(true);
 		mainStage.setScene(scene);
-		mainStage.setTitle("Wyniki produkcji ma³ego ciêcia");
-		mainStage.isAlwaysOnTop();
+		mainStage.setTitle("Wyniki produkcji ma³ego ciêcia wersja 26");
+//		mainStage.isAlwaysOnTop();
 		mainStage.show();
 
 	}

@@ -32,6 +32,19 @@ public class PrzedrukPolaryzatorow {
 	private String model;
 	@DatabaseField(columnDefinition = "OPERATOR")
 	private String operator;
+	@DatabaseField(columnName = "IP")
+	private String ip;
+	
+	
+	
+	
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 
 	public int getId() {
 		return id;

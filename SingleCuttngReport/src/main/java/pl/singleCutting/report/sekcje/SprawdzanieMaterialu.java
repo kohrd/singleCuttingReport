@@ -39,11 +39,38 @@ public class SprawdzanieMaterialu {
 	private String trybPracy;
 	@DatabaseField(columnName = "ILOSC_NA_PODKLADKI")
 	private int iloscNaPodkladki;
+	@DatabaseField(columnName = "ILOSC_PODKLADEK")
+	private int iloscPodkladek;
 	@DatabaseField(columnName = "OPERATOR")
 	private String operator;
+	@DatabaseField(columnName = "IP")
+	private String ip;
+	
+	
+	
+	
+	public String getIp() {
+		return ip;
+	}
 
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public SprawdzanieMaterialu() {
+		
+	}
+	
 	public int getIloscNg() {
 		return iloscNg;
+	}
+
+	public int getIloscPodkladek() {
+		return iloscPodkladek;
+	}
+
+	public void setIloscPodkladek(int ilosc_podkladek) {
+		this.iloscPodkladek = ilosc_podkladek;
 	}
 
 	public void setIloscNg(int iloscNg) {
@@ -51,9 +78,6 @@ public class SprawdzanieMaterialu {
 	}
 
 	// kontruktor bezargumentowy dla ormlite
-	public SprawdzanieMaterialu() {
-
-	}
 
 	public String getDate() {
 		return date;

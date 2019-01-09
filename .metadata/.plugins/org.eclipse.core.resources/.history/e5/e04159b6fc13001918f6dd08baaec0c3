@@ -1,0 +1,927 @@
+package pl.singleCutting.report.metody;
+
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Color;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+
+public class GenerateReport {
+
+	// static String xlsReportPath =
+	// "C:\\_raportSingleCuttingTestJava\\raportyExcel\\";
+
+	// @SuppressWarnings("null")
+	public static void generateReportInExcel(String dateFrom, String dateTo, String reportFor, String dbPath,
+			File file) {
+		Connection connection = null;
+//
+//		try {
+		try {
+			connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+		} catch (SQLException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+		// ORGINALNE PREPARED STATEMENT
+
+//			@SuppressWarnings("resource")
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("Raport");
+
+		// style
+//		HSSFFont boldFont = wb.createFont();
+//		boldFont.setBold(true);
+		// style naglowka
+		CellStyle cellStyleHeaderSection = styleColumnHeaderCell();
+
+		// RAPORT SEKCJI 1 SPRAWDZANIE MATETRIA£U
+
+		HSSFRow wierszNaglowek = sheet.createRow((short) 2);
+		// nag³ówek ISO z orginalnego dokumentu
+		wierszNaglowek.createCell((short) 0).setCellValue("Data wprowadzenia");
+//			wierszNaglowek.setRowStyle(eded);
+		wierszNaglowek.createCell((short) 1).setCellValue("-");
+		wierszNaglowek.createCell((short) 4).setCellValue("Wniosek");
+//			wierszNaglowek.set
+		wierszNaglowek.createCell((short) 5).setCellValue("Rozpatrzenie");
+		wierszNaglowek.createCell((short) 6).setCellValue("Zatwierdzi³");
+
+		wierszNaglowek = sheet.createRow((short) 3);
+		wierszNaglowek.createCell((short) 0).setCellValue("Numer poprawki");
+		wierszNaglowek.createCell((short) 1).setCellValue("1");
+		wierszNaglowek.createCell((short) 3).setCellValue("Podpis");
+		wierszNaglowek.createCell((short) 4).setCellValue("Micha³ Gabrysz");
+		wierszNaglowek.createCell((short) 5).setCellValue("Ireneusz Szyszka");
+		wierszNaglowek.createCell((short) 6).setCellValue("Ireneusz Szyszka");
+
+		wierszNaglowek = sheet.createRow((short) 4);
+		wierszNaglowek.createCell((short) 0).setCellValue("Data poprawki");
+		wierszNaglowek.createCell((short) 1).setCellValue("16.12.2011");
+
+		wierszNaglowek = sheet.createRow((short) 6);
+		wierszNaglowek.createCell((short) 0).setCellValue("Formularz selekcji materia³u na dziale ciêcia próbek");
+		sheet.addMergedRegion(new CellRangeAddress(6, 6, 0, 8));
+
+		wierszNaglowek = sheet.createRow((short) 7);
+		wierszNaglowek.createCell((short) 0).setCellValue("Dzia³");
+		wierszNaglowek.createCell((short) 1).setCellValue("Ciêcie próbek");
+		sheet.addMergedRegion(new CellRangeAddress(7, 7, 1, 6));
+
+		wierszNaglowek = sheet.createRow((short) 8);
+		wierszNaglowek.createCell((short) 0).setCellValue("Numer linii");
+		wierszNaglowek.createCell((short) 1).setCellValue("1");
+		sheet.addMergedRegion(new CellRangeAddress(8, 8, 1, 6));
+
+		wierszNaglowek = sheet.createRow((short) 9);
+		wierszNaglowek.createCell((short) 0).setCellValue("Osoba odpowiedzialna");
+		wierszNaglowek.createCell((short) 1).setCellValue("Inspektorka ciêcia próbek");
+		sheet.addMergedRegion(new CellRangeAddress(9, 9, 1, 6));
+
+		wierszNaglowek = sheet.createRow((short) 10);
+		wierszNaglowek.createCell((short) 0).setCellValue("Cel");
+		wierszNaglowek.createCell((short) 1).setCellValue("Przygotowanie materia³u do obróbki na dziale ciêcia próbek");
+		sheet.addMergedRegion(new CellRangeAddress(10, 10, 1, 6));
+
+		// raport ma³ego ciêcia
+		wierszNaglowek = sheet.createRow((short) 12);
+//			wierszNaglowek.createCell((short) 0).setCellStyle(boldFontGreyCell);
+		wierszNaglowek.createCell((short) 0).setCellValue("SEKCJA SPRAWDZANIE MATERIA£U");
+		// mergowanie tytu³u nag³ówka
+		sheet.addMergedRegion(new CellRangeAddress(12, 12, 0, 8));
+
+		wierszNaglowek = sheet.createRow((short) 13);
+
+		Cell columnSprawdzanieMaterialu_0 = wierszNaglowek.createCell(0);
+		Cell columnSprawdzanieMaterialu_1 = wierszNaglowek.createCell(1);
+		Cell columnSprawdzanieMaterialu_2 = wierszNaglowek.createCell(2);
+		Cell columnSprawdzanieMaterialu_3 = wierszNaglowek.createCell(3);
+		Cell columnSprawdzanieMaterialu_4 = wierszNaglowek.createCell(4);
+		Cell columnSprawdzanieMaterialu_5 = wierszNaglowek.createCell(5);
+		Cell columnSprawdzanieMaterialu_6 = wierszNaglowek.createCell(6);
+		Cell columnSprawdzanieMaterialu_7 = wierszNaglowek.createCell(7);
+		Cell columnSprawdzanieMaterialu_8 = wierszNaglowek.createCell(8);
+		Cell columnSprawdzanieMaterialu_9 = wierszNaglowek.createCell(9);
+
+		setColumnHeaderCellStyle(columnSprawdzanieMaterialu_0 , "Data", cellStyleHeaderSection);
+		setColumnHeaderCellStyle(columnSprawdzanieMaterialu_1 , "Godzina", cellStyleHeaderSection);
+		setColumnHeaderCellStyle(columnSprawdzanieMaterialu_2 , "Model", cellStyleHeaderSection);
+		setColumnHeaderCellStyle(columnSprawdzanieMaterialu_3 , "Ilosc ca³kowita", cellStyleHeaderSection);
+		setColumnHeaderCellStyle(columnSprawdzanieMaterialu_4 , "Ilosc ok", cellStyleHeaderSection);
+		setColumnHeaderCellStyle(columnSprawdzanieMaterialu_5 , "Ilosc NG", cellStyleHeaderSection);
+		setColumnHeaderCellStyle(columnSprawdzanieMaterialu_6 , "Tryb pracy", cellStyleHeaderSection);
+		setColumnHeaderCellStyle(columnSprawdzanieMaterialu_7 , "Ilosc na podk³adki", cellStyleHeaderSection);
+		setColumnHeaderCellStyle(columnSprawdzanieMaterialu_8 , "Iloæ podk³adek", cellStyleHeaderSection);
+		setColumnHeaderCellStyle(columnSprawdzanieMaterialu_9 , "Operator", cellStyleHeaderSection);
+		
+		
+//		public static void setColumnHeaderCellStyle (HSSFRow row, Cell cell, Short cellIndex, String cellValue, CellStyle cellStyle) {
+//			cell = row.createCell(cellIndex);
+//			cell.setCellValue(cellValue);
+//			cell.setCellStyle(cellStyle);
+//
+//			
+//		}
+		
+				
+//				wierszNaglowek.createCell((short) 0);
+//		c1.setCellValue("Data");
+//		wierszNaglowek.createCell((short) 1).setCellValue("Godzina");
+//		wierszNaglowek.createCell((short) 2).setCellValue("Model");
+//		wierszNaglowek.createCell((short) 3).setCellValue("");
+//		wierszNaglowek.createCell((short) 4).setCellValue("");
+//		wierszNaglowek.createCell((short) 5).setCellValue("");
+//		wierszNaglowek.createCell((short) 6).setCellValue("");
+//		wierszNaglowek.createCell((short) 7).setCellValue("");
+//		wierszNaglowek.createCell((short) 8).setCellValue("");
+//		wierszNaglowek.createCell((short) 9).setCellValue("");
+////		wierszNaglowek.setRowStyle(cellStyleHeaderSection);
+
+		ResultSet rs = null;
+
+		String querySprawdzanieMaterialuOperator = "SELECT * FROM TABELA_SPRAWDZANIE_MATERIALU WHERE OPERATOR = ? AND DATE BETWEEN ? AND ? ORDER BY DATE ASC";
+		String querySprawdzanieMaterialuAll = "SELECT * FROM TABELA_SPRAWDZANIE_MATERIALU WHERE  DATE BETWEEN ? AND ? ORDER BY DATE ASC";
+//		String querySprawdzanieMaterialuOperator = "SELECT * FROM TABELA_SPRAWDZANIE_MATERIALU WHERE OPERATOR = ? AND DATE BETWEEN ? AND ? GROUP BY MODEL_POLARYZATORA, TRYB_PRACY ORDER BY DATE ASC";
+//		String querySprawdzanieMaterialuAll = "SELECT * FROM TABELA_SPRAWDZANIE_MATERIALU WHERE  DATE BETWEEN ? AND ? GROUP BY MODEL_POLARYZATORA, TRYB_PRACY ORDER BY DATE ASC";
+		rs = createResultSet(connection, dateFrom, dateTo, reportFor, querySprawdzanieMaterialuOperator,
+				querySprawdzanieMaterialuAll, dbPath);
+
+		int indexExcel = 14;
+		try {
+			indexExcel = indexExcel + 1;
+			while (rs.next()) {
+				String date = rs.getString("DATE");
+				String time = rs.getString("TIME");
+				String modelPolaryzatora = rs.getString("MODEL_POLARYZATORA");
+				int iloscCalkowita = rs.getInt("ILOSC_CALKOWITA");
+				int iloscOk = rs.getInt("ILOSC_OK");
+				int iloscNG = rs.getInt("ILOSC_NG");
+				String trybPracy = rs.getString("TRYB_PRACY");
+				int iloscNaPodkladki = rs.getInt("ILOSC_NA_PODKLADKI");
+				int iloscPodkladek = rs.getInt("ILOSC_PODKLADEK");
+				String operator = rs.getString("OPERATOR");
+				System.out.println(date + "  " + time + "  " + modelPolaryzatora + "  " + iloscCalkowita + "  "
+						+ iloscOk + "  " + iloscNG + "  " + trybPracy + "  " + iloscNaPodkladki + "  " + iloscPodkladek
+						+ "  " + operator);
+
+				// wstawianie danych do excela
+				HSSFRow wierszExcel = sheet.createRow((short) indexExcel);
+				wierszExcel.createCell((short) 0).setCellValue(date);
+				wierszExcel.createCell((short) 1).setCellValue(time);
+				wierszExcel.createCell((short) 2).setCellValue(modelPolaryzatora);
+				wierszExcel.createCell((short) 3).setCellValue(iloscCalkowita);
+				wierszExcel.createCell((short) 4).setCellValue(iloscOk);
+				wierszExcel.createCell((short) 5).setCellValue(iloscNG);
+				wierszExcel.createCell((short) 6).setCellValue(trybPracy);
+				wierszExcel.createCell((short) 7).setCellValue(iloscNaPodkladki);
+				wierszExcel.createCell((short) 8).setCellValue(iloscPodkladek);
+				wierszExcel.createCell((short) 9).setCellValue(operator);
+				indexExcel = indexExcel + 1;
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		// RAPORT SEKCJI 2 PRZEDUK POLARYZATOROW
+		indexExcel = indexExcel + 2;
+		wierszNaglowek = sheet.createRow((short) indexExcel);
+		wierszNaglowek.createCell((short) 0).setCellValue("SEKCJA PRZEDRUK POLARYZATORÓW");
+		sheet.addMergedRegion(new CellRangeAddress(indexExcel, indexExcel, 0, 8));
+		indexExcel = indexExcel + 1;
+		wierszNaglowek = sheet.createRow((short) indexExcel);
+		wierszNaglowek.createCell((short) 0).setCellValue("Data");
+		wierszNaglowek.createCell((short) 1).setCellValue("Godzina");
+		wierszNaglowek.createCell((short) 2).setCellValue("lot");
+		wierszNaglowek.createCell((short) 3).setCellValue("Ilosc ca³kowita");
+		wierszNaglowek.createCell((short) 4).setCellValue("Model");
+		wierszNaglowek.createCell((short) 5).setCellValue("Operator");
+
+		try {
+			rs.close();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		indexExcel = indexExcel + 1;
+		rs = null;
+		String queryprzedrukPolaryzatoprowOperator = "SELECT * FROM TABELA_PRZEDRUK_POLARYZATOROW WHERE OPERATOR = ? AND DATE BETWEEN ? AND ?  ORDER BY DATE ASC";
+		String queryprzedrukPolaryzatoprowQueryAll = "SELECT * FROM TABELA_PRZEDRUK_POLARYZATOROW WHERE DATE BETWEEN ? AND ?  ORDER BY DATE ASC";
+		rs = createResultSet(connection, dateFrom, dateTo, reportFor, queryprzedrukPolaryzatoprowOperator,
+				queryprzedrukPolaryzatoprowQueryAll, dbPath);
+		try {
+			while (rs.next()) {
+				String date = rs.getString("DATE");
+				String time = rs.getString("TIME");
+				String lot = rs.getString("LOT");
+				int iloscCalkowita = rs.getInt("AMOUNT");
+				String model = rs.getString("MODEL");
+				String operator = rs.getString("OPERATOR");
+				System.out.println("PRZEDRUK POLARYZATOROW " + date + "  " + time + "  " + lot + "  " + iloscCalkowita
+						+ "  " + model + "  " + operator);
+
+				HSSFRow wierszExcel = sheet.createRow((short) indexExcel);
+				wierszExcel.createCell((short) 0).setCellValue(date);
+				wierszExcel.createCell((short) 1).setCellValue(time);
+				System.out.println(time);
+				wierszExcel.createCell((short) 2).setCellValue(lot);
+				wierszExcel.createCell((short) 3).setCellValue(iloscCalkowita);
+				wierszExcel.createCell((short) 4).setCellValue(model);
+				wierszExcel.createCell((short) 5).setCellValue(operator);
+				indexExcel = indexExcel + 1;
+
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		// RAPORT SEKCJI 3 KLEJENIE
+		indexExcel = indexExcel + 2;
+		wierszNaglowek = sheet.createRow((short) indexExcel);
+		wierszNaglowek.createCell((short) 0).setCellValue("SEKCJA KLEJENIE PODK£ADEK");
+		sheet.addMergedRegion(new CellRangeAddress(indexExcel, indexExcel, 0, 8));
+		indexExcel = indexExcel + 1;
+		wierszNaglowek = sheet.createRow((short) indexExcel);
+		wierszNaglowek.createCell((short) 0).setCellValue("Data");
+		wierszNaglowek.createCell((short) 1).setCellValue("Godzina");
+		wierszNaglowek.createCell((short) 2).setCellValue("Ilosc klejona");
+		wierszNaglowek.createCell((short) 3).setCellValue("Iloc klejona na rdzeñ");
+		wierszNaglowek.createCell((short) 4).setCellValue("typ klejony na rdzeñ");
+		wierszNaglowek.createCell((short) 5).setCellValue("D³ugoæ nawiniêta na rdzeñ");
+		wierszNaglowek.createCell((short) 6).setCellValue("Operator");
+
+		try {
+			rs.close();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		System.out.println("indexExcelKlejenie " + indexExcel);
+		indexExcel = indexExcel + 1;
+
+		rs = null;
+		String klejenieQueryAll = "SELECT * FROM TABELA_KLEJENIE WHERE  DATE BETWEEN ? AND ?  ORDER BY DATE ASC";
+		String klejenieQueryOperator = "SELECT * FROM TABELA_KLEJENIE WHERE OPERATOR = ? AND  DATE BETWEEN ? AND ?  ORDER BY DATE ASC";
+		rs = createResultSet(connection, dateFrom, dateTo, reportFor, klejenieQueryOperator, klejenieQueryAll, dbPath);
+
+		try {
+			while (rs.next()) {
+				String date = rs.getString("DATE");
+				String time = rs.getString("TIME");
+				String operator = rs.getString("OPERATOR");
+				int iloscKlejona = rs.getInt("ILOSC_KLEJONA");
+				// klejenie na rdzeñ
+				int iloscKlejonaNaRdzen = rs.getInt("ILOSC_KLEJONA_NA_RDZEN");
+				String typKlejonychNaRdzen = rs.getString("TYP_KLEJONYCH_NA_RDZEN");
+				int dlugoscNawinietaNaRdzen = rs.getInt("DLUGOSC_NAWINIETA_NA_RDZEN");
+
+				System.out.println(
+						"KLEJENIE POLARYZATOROW " + date + "  " + time + "  " + iloscKlejona + "  " + operator + "  "
+								+ iloscKlejonaNaRdzen + "   " + typKlejonychNaRdzen + "   " + dlugoscNawinietaNaRdzen);
+
+				HSSFRow wierszExcel = sheet.createRow((short) indexExcel);
+				wierszExcel.createCell((short) 0).setCellValue(date);
+				wierszExcel.createCell((short) 1).setCellValue(time);
+				wierszExcel.createCell((short) 2).setCellValue(iloscKlejona);
+				wierszExcel.createCell((short) 3).setCellValue(iloscKlejonaNaRdzen);
+				wierszExcel.createCell((short) 4).setCellValue(typKlejonychNaRdzen);
+				wierszExcel.createCell((short) 5).setCellValue(dlugoscNawinietaNaRdzen);
+				wierszExcel.createCell((short) 6).setCellValue(operator);
+				indexExcel = indexExcel + 1;
+
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		// RAPORT SEKCJI 4 OZNAKOWANIE
+		indexExcel = indexExcel + 2;
+		wierszNaglowek = sheet.createRow((short) indexExcel);
+		wierszNaglowek.createCell((short) 0).setCellValue("SEKCJA OZNAKOWANIE");
+		sheet.addMergedRegion(new CellRangeAddress(indexExcel, indexExcel, 0, 8));
+		indexExcel = indexExcel + 1;
+		wierszNaglowek = sheet.createRow((short) indexExcel);
+		wierszNaglowek.createCell((short) 0).setCellValue("Data");
+		wierszNaglowek.createCell((short) 1).setCellValue("Godzina");
+		wierszNaglowek.createCell((short) 2).setCellValue("Model");
+		wierszNaglowek.createCell((short) 3).setCellValue("Iloæ");
+		wierszNaglowek.createCell((short) 4).setCellValue("Operator");
+
+		indexExcel = indexExcel + 1;
+
+		String oznakowanieQueryOperator = "SELECT * FROM TABELA_OZNAKOWANIE_PODKLADEK WHERE OPERATOR = ? AND  DATE BETWEEN ? AND ?  ORDER BY DATE ASC";
+		String oznakowanieQueryAll = "SELECT * FROM TABELA_OZNAKOWANIE_PODKLADEK  WHERE DATE BETWEEN ? AND ?  ORDER BY DATE ASC";
+		rs = createResultSet(connection, dateFrom, dateTo, reportFor, oznakowanieQueryOperator, oznakowanieQueryAll,
+				dbPath);
+		try {
+			while (rs.next()) {
+				String date = rs.getString("DATE");
+				String time = rs.getString("TIME");
+				String model = rs.getString("MODEL");
+				int iloscOznakowana = rs.getInt("AMOUNT");
+				String operator = rs.getString("OPERATOR");
+				System.out.println(
+						"OZNAKOWANIE POLARYZATOROW " + date + "  " + time + "  " + iloscOznakowana + "  " + operator);
+
+				HSSFRow wierszExcel = sheet.createRow((short) indexExcel);
+				wierszExcel.createCell((short) 0).setCellValue(date);
+				wierszExcel.createCell((short) 1).setCellValue(time);
+				wierszExcel.createCell((short) 2).setCellValue(model);
+				wierszExcel.createCell((short) 3).setCellValue(iloscOznakowana);
+				wierszExcel.createCell((short) 4).setCellValue(operator);
+				indexExcel = indexExcel + 1;
+
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			System.out.println("DDUUUUPPPDADDADADAD");
+			wb.write(file);
+			wb.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("zapisano dane");
+		try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public static ResultSet createResultSet(Connection connection, String dateFrom, String dateTo, String reportFor,
+			String queryOperator, String queryAll, String dbPath) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		if (reportFor.equals("Wszyscy")) {
+			try {
+				pstmt = connection.prepareStatement(queryAll);
+//				pstmt.setString(1, reportFor);
+				pstmt.setString(1, dateFrom);
+				pstmt.setString(2, dateTo);
+				rs = pstmt.executeQuery();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		} else if (!reportFor.equals("Wszyscy")) {
+
+			try {
+				pstmt = connection.prepareStatement(queryOperator);
+				pstmt.setString(1, reportFor);
+				pstmt.setString(2, dateFrom);
+				pstmt.setString(3, dateTo);
+				rs = pstmt.executeQuery();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		return rs;
+
+	}
+
+	public static CellStyle styleColumnHeaderCell() {
+		Font font = new Font() {
+
+			@Override
+			public void setUnderline(byte arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setTypeOffset(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setStrikeout(boolean arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setItalic(boolean arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setFontName(String arg0) {
+//				this.setFontName("Courier New");
+
+			}
+
+			@Override
+			public void setFontHeightInPoints(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setFontHeight(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setColor(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setCharSet(int arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setCharSet(byte arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setBold(boolean arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public byte getUnderline() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public short getTypeOffset() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public boolean getStrikeout() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean getItalic() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public int getIndexAsInt() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public short getIndex() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public String getFontName() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public short getFontHeightInPoints() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public short getFontHeight() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public short getColor() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public int getCharSet() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public boolean getBold() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
+
+		CellStyle cellStyle = new CellStyle() {
+
+			@Override
+			public void setWrapText(boolean arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setVerticalAlignment(VerticalAlignment arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setTopBorderColor(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setShrinkToFit(boolean arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setRotation(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setRightBorderColor(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setQuotePrefixed(boolean arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setLocked(boolean arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setLeftBorderColor(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setIndention(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setHidden(boolean arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setFont(Font arg0) {
+				this.setFont(font);
+
+			}
+
+			@Override
+			public void setFillPattern(FillPatternType arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setFillForegroundColor(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setFillBackgroundColor(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setDataFormat(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setBottomBorderColor(short arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setBorderTop(BorderStyle arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setBorderRight(BorderStyle arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setBorderLeft(BorderStyle arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setBorderBottom(BorderStyle arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void setAlignment(HorizontalAlignment arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public boolean getWrapText() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public VerticalAlignment getVerticalAlignmentEnum() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public VerticalAlignment getVerticalAlignment() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public short getTopBorderColor() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public boolean getShrinkToFit() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public short getRotation() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public short getRightBorderColor() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public boolean getQuotePrefixed() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean getLocked() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public short getLeftBorderColor() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public short getIndex() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public short getIndention() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public boolean getHidden() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public int getFontIndexAsInt() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public short getFontIndex() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public FillPatternType getFillPatternEnum() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public FillPatternType getFillPattern() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Color getFillForegroundColorColor() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public short getFillForegroundColor() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public Color getFillBackgroundColorColor() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public short getFillBackgroundColor() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public String getDataFormatString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public short getDataFormat() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public short getBottomBorderColor() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public BorderStyle getBorderTopEnum() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public BorderStyle getBorderTop() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public BorderStyle getBorderRightEnum() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public BorderStyle getBorderRight() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public BorderStyle getBorderLeftEnum() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public BorderStyle getBorderLeft() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public BorderStyle getBorderBottomEnum() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public BorderStyle getBorderBottom() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public HorizontalAlignment getAlignmentEnum() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public HorizontalAlignment getAlignment() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public void cloneStyleFrom(CellStyle arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		};
+
+		font.setFontName("Courier New");
+		font.setBold(true);
+		font.setFontHeight((short) 12);
+		cellStyle.setFont(font);
+		return cellStyle;
+	}
+
+	public static void setColumnHeaderCellStyle ( Cell cell,  String cellValue, CellStyle cellStyle) {
+//		cell = row.createCell((short)i);
+		cell.setCellValue(cellValue);
+		cell.setCellStyle(cellStyle);
+
+		
+	}
+	
+
+
+}
